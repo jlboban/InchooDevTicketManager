@@ -1,0 +1,30 @@
+{
+  "name": "inchoodev/ticket-manager",
+  "description": "Ticket Manager Plugin for Shopware",
+  "version": "0.0.1",
+  "type": "shopware-platform-plugin",
+  "require": {
+    "shopware/core": "~v6.3.0",
+    "shopware/administration": "*",
+    "shopware/storefront": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "InchooDev\\TicketManager\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "InchooDev\\TicketManager\\TicketManager",
+    "label": {
+      "en-GB": "TicketManager Plugin for Shopware"
+    }
+  },
+  "authors": [
+    {
+      "name": "Inchoo",
+      "email": "backend@inchoo.net",
+      "homepage": "https://inchoo.net/",
+      "role": "Developer"
+    }
+  ]
+}
