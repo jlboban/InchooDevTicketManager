@@ -1,6 +1,6 @@
 {
   "name": "inchoodev/ticket-manager",
-  "description": "Ticket Manager Plugin for Shopware",
+  "description": "Ticket Manager Plugin for Shopware 6",
   "version": "0.0.1",
   "type": "shopware-platform-plugin",
   "require": {
