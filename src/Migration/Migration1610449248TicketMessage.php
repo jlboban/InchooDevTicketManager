@@ -17,7 +17,7 @@ class Migration1610449248TicketMessage extends MigrationStep
         $connection->executeUpdate('
             CREATE TABLE IF NOT EXISTS `inchoo_ticket_message` (
               `id` BINARY(16) NOT NULL,
-              `message` VARCHAR(255) NOT NULL,
+              `content` VARCHAR(255) NOT NULL,
               `ticket_id` BINARY(16) NOT NULL,
               `customer_id` BINARY(16) NOT NULL,
               `admin_id` BINARY(16),

@@ -9,8 +9,25 @@
             <tag name="shopware.entity.definition" entity="inchoo_ticket" />
         </service>
 
-        <service id="InchooDev\TicketManager\Core\Content\TicketMessage\TicketMessageDefinition">
+        <service id="InchooDev\TicketManager\Core\Content\TicketReply\TicketReplyDefinition">
             <tag name="shopware.entity.definition" entity="inchoo_ticket_message" />
         </service>
+
+        <service id="InchooDev\TicketManager\Storefront\Controller\TicketController" public="true">
+            <argument type="service" id="InchooDev\TicketManager\Page\Ticket\Listing\TicketListingPageLoader"/>
+        </service>
+
+        <service id="InchooDev\TicketManager\Page\Ticket\Listing\TicketListingPageLoader">
+            <argument type="service" id="Shopware\Storefront\Page\GenericPageLoader"/>
+            <argument type="service" id="inchoo_ticket.repository"/>
+        </service>
+
+        <!--
+        <service id="InchooDev\TicketManager\Storefront\Subscriber\AccountPageSubscriber">
+            <argument type="service" id="inchoo_ticket.repository"/>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+        -->
+
     </services>
 </container>

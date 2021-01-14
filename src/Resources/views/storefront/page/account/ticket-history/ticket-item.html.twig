@@ -1,0 +1,31 @@
+{% block page_account_order_item_overview %}
+    <div class="order-wrapper">
+        <div class="order-item-header">
+            <div class="row">
+
+                {% block page_account_order_item_heading %}
+                    <h4 class="col-12 order-table-header-heading">{{ ticket.subject }}</h4>
+
+                    {% if ticket.status == 0 %}
+                        <h4 class="col-12 order-table-header-heading">Status: CLOSED</h4>
+                    {% else %}
+                        <h4 class="col-12 order-table-header-heading">Status: OPEN</h4>
+                    {% endif %}
+                    <h4 class="col-12 order-table-header-heading">{{ ticket.createdAt|format_date }}</h4>
+
+                {% endblock %}
+                {% block page_account_order_item_order_table_body_cell_toggle_order_details_button %}
+                    <button class="btn btn-dark btn-sm order-hide-btn float-right"
+                            type="submit"
+                            aria-expanded="false"
+
+                    {% block page_account_order_item_order_table_body_cell_toggle_order_details_button_text %}
+                        <span class="order-view-btn-text">View</span>
+                    {% endblock %}
+                    </button>
+                {% endblock %}
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

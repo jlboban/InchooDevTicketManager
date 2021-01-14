@@ -2,7 +2,7 @@
 
 namespace InchooDev\TicketManager\Core\Content\Ticket;
 
-use InchooDev\TicketManager\Core\Content\TicketMessage\TicketMessageCollection;
+use InchooDev\TicketManager\Core\Content\TicketReply\TicketReplyCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 
@@ -21,16 +21,16 @@ class TicketEntity extends Entity
     protected $subject;
 
     /**
-     * @var TicketMessageCollection|null
+     * @var TicketReplyCollection|null
      */
-    protected $messages;
+    protected $replies;
 
     /**
-     * @return int
+     * @return bool
      */
-    public function getStatus(): int
+    public function getStatus(): bool
     {
-        return $this->status;
+        return (bool)$this->status;
     }
 
     /**
@@ -58,18 +58,18 @@ class TicketEntity extends Entity
     }
 
     /**
-     * @return TicketMessageCollection|null
+     * @return TicketReplyCollection|null
      */
-    public function getMessages(): ?TicketMessageCollection
+    public function getReplies(): ?TicketReplyCollection
     {
-        return $this->messages;
+        return $this->replies;
     }
 
     /**
-     * @param TicketMessageCollection|null $messages
+     * @param TicketReplyCollection|null $replies
      */
-    public function setMessages(?TicketMessageCollection $messages): void
+    public function setReplies(?TicketReplyCollection $replies): void
     {
-        $this->messages = $messages;
+        $this->replies = $replies;
     }
 }

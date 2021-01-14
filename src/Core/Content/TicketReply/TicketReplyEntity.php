@@ -1,19 +1,19 @@
 <?php declare(strict_types=1);
 
-namespace InchooDev\TicketManager\Core\Content\TicketMessage;
+namespace InchooDev\TicketManager\Core\Content\TicketReply;
 
-use InchooDev\TicketManager\Core\Content\Ticket\TicketCollection;
+use InchooDev\TicketManager\Core\Content\Ticket\TicketEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 
-class TicketMessageEntity extends Entity
+class TicketReplyEntity extends Entity
 {
     use EntityIdTrait;
 
     /**
      * @var string
      */
-    protected $message;
+    protected $content;
 
     /**
      * @var string
@@ -31,24 +31,24 @@ class TicketMessageEntity extends Entity
     protected $adminId;
 
     /**
-     * @var TicketCollection|null
+     * @var TicketEntity|null
      */
     protected $ticket;
 
     /**
      * @return string
      */
-    public function getMessage(): string
+    public function getContent(): string
     {
-        return $this->message;
+        return $this->content;
     }
 
     /**
-     * @param string $message
+     * @param string $content
      */
-    public function setMessage(string $message): void
+    public function setContent(string $content): void
     {
-        $this->message = $message;
+        $this->content = $content;
     }
 
     /**
@@ -100,17 +100,17 @@ class TicketMessageEntity extends Entity
     }
 
     /**
-     * @return TicketCollection|null
+     * @return TicketEntity|null
      */
-    public function getTicket(): ?TicketCollection
+    public function getTicket(): ?TicketEntity
     {
         return $this->ticket;
     }
 
     /**
-     * @param TicketCollection|null $ticket
+     * @param TicketEntity|null $ticket
      */
-    public function setTicket(?TicketCollection $ticket): void
+    public function setTicket(?TicketEntity $ticket): void
     {
         $this->ticket = $ticket;
     }

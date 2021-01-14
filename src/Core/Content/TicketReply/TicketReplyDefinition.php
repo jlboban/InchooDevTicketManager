@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace InchooDev\TicketManager\Core\Content\TicketMessage;
+namespace InchooDev\TicketManager\Core\Content\TicketReply;
 
 use InchooDev\TicketManager\Core\Content\Ticket\TicketDefinition;
 use Shopware\Core\Checkout\Customer\CustomerDefinition;
@@ -14,7 +14,7 @@ use Shopware\Core\Framework\DataAbstractionLayer\Field\StringField;
 use Shopware\Core\Framework\DataAbstractionLayer\FieldCollection;
 use Shopware\Core\System\User\UserDefinition;
 
-class TicketMessageDefinition extends EntityDefinition
+class TicketReplyDefinition extends EntityDefinition
 {
     public const ENTITY_NAME = 'inchoo_ticket_message';
 
@@ -25,12 +25,12 @@ class TicketMessageDefinition extends EntityDefinition
 
     public function getEntityClass(): string
     {
-        return TicketMessageEntity::class;
+        return TicketReplyEntity::class;
     }
 
     public function getCollectionClass(): string
     {
-        return TicketMessageCollection::class;
+        return TicketReplyCollection::class;
     }
 
     protected function defineFields(): FieldCollection

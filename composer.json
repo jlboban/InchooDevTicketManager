@@ -16,7 +16,7 @@
   "extra": {
     "shopware-plugin-class": "InchooDev\\TicketManager\\TicketManager",
     "label": {
-      "en-GB": "TicketManager Plugin for Shopware"
+      "en-GB": "Ticket Manager Plugin for Shopware 6"
     }
   },
   "authors": [

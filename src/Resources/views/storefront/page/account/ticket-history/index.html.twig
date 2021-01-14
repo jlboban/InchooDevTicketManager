@@ -1,0 +1,44 @@
+{% sw_extends '@Storefront/storefront/page/account/_page.html.twig' %}
+
+{% block page_account_main_content %}
+    {% block page_account_tickets %}
+        <div class="account-orders">
+            {% block page_account_tickets_welcome %}
+                <div class="account-welcome">
+                    {% block page_account_tickets_welcome_headline %}
+                        <h1>{#{ "account.ordersTitle"|trans|sw_sanitize }#}Tickets</h1>
+                        <p>{#{ "account.ordersWelcome"|trans|sw_sanitize }#}Your tickets:</p>
+                    {% endblock %}
+                </div>
+            {% endblock %}
+
+            {% block page_account_tickets_main %}
+                <div class="account-orders-main">
+                    {% if page.tickets.elements|length == 0 %}
+                        {% block page_account_tickets_info_empty %}
+                            {% sw_include '@Storefront/storefront/utilities/alert.html.twig' with {
+                                type: "success",
+                                content: "You don't have open tickets."
+                            } %}
+                        {% endblock %}
+                    {% else %}
+                        {% block page_account_tickets_overview %}
+                            <div class="account-orders-overview">
+                                {% block page_account_tickets_table %}
+                                    {% block page_account_tickets_table_body %}
+                                        {% for ticket in page.tickets.elements %}
+                                            <div class="table order-table"
+                                                 data-ticket-detail-loader="true">
+                                                {% sw_include '@InchooDev/storefront/page/account/ticket-history/ticket-item.html.twig' %}
+                                            </div>
+                                        {% endfor %}
+                                    {% endblock %}
+                                {% endblock %}
+                            </div>
+                        {% endblock %}
+                    {% endif %}
+                </div>
+            {% endblock %}
+        </div>
+    {% endblock %}
+{% endblock %}
