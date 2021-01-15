@@ -21,6 +21,11 @@ class TicketEntity extends Entity
     protected $subject;
 
     /**
+     * @var string
+     */
+    protected $customerId;
+
+    /**
      * @var TicketReplyCollection|null
      */
     protected $replies;
@@ -71,5 +76,21 @@ class TicketEntity extends Entity
     public function setReplies(?TicketReplyCollection $replies): void
     {
         $this->replies = $replies;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCustomerId(): string
+    {
+        return $this->customerId;
+    }
+
+    /**
+     * @param string $customerId
+     */
+    public function setCustomerId(string $customerId): void
+    {
+        $this->customerId = $customerId;
     }
 }

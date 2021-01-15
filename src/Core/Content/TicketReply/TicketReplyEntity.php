@@ -70,22 +70,6 @@ class TicketReplyEntity extends Entity
     /**
      * @return string
      */
-    public function getCustomerId(): string
-    {
-        return $this->customerId;
-    }
-
-    /**
-     * @param string $customerId
-     */
-    public function setCustomerId(string $customerId): void
-    {
-        $this->customerId = $customerId;
-    }
-
-    /**
-     * @return string
-     */
     public function getAdminId(): string
     {
         return $this->adminId;
@@ -97,21 +81,5 @@ class TicketReplyEntity extends Entity
     public function setAdminId(string $adminId): void
     {
         $this->adminId = $adminId;
-    }
-
-    /**
-     * @return TicketEntity|null
-     */
-    public function getTicket(): ?TicketEntity
-    {
-        return $this->ticket;
-    }
-
-    /**
-     * @param TicketEntity|null $ticket
-     */
-    public function setTicket(?TicketEntity $ticket): void
-    {
-        $this->ticket = $ticket;
     }
 }
