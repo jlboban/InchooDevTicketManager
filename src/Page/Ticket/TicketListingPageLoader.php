@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace InchooDev\TicketManager\Page\Ticket\Listing;
+namespace InchooDev\TicketManager\Page\Ticket;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
@@ -50,9 +50,10 @@ class TicketListingPageLoader
         $customerId = $salesChannelContext->getCustomer()->getId();
 
         $criteria = (new Criteria())
-            ->addFilter(new EqualsFilter('inchoo_ticket_reply.customer_id', $customerId))
+            ->addFilter(new EqualsFilter('customerId', $customerId))
             ->addSorting(new FieldSorting('status'));
 
-        return $this->ticketRepository->search($criteria, $salesChannelContext->getContext())->getEntities();
+        $tickets = $this->ticketRepository->search($criteria, $salesChannelContext->getContext())->getEntities();
+        return $tickets;
     }
 }

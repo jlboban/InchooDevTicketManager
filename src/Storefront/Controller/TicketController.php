@@ -2,13 +2,14 @@
 
 namespace InchooDev\TicketManager\Storefront\Controller;
 
-use InchooDev\TicketManager\Page\Ticket\Listing\TicketListingPageLoader;
+use InchooDev\TicketManager\Page\Ticket\TicketListingPageLoader;
 use Shopware\Storefront\Controller\StorefrontController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\System\SalesChannel\SalesChannelContext;
+use Shopware\Core\Framework\Routing\Annotation\LoginRequired;
 
 /**
  * @RouteScope(scopes={"storefront"})
@@ -23,10 +24,11 @@ class TicketController extends StorefrontController
     }
 
     /**
-     * @Route("/account/tickets", name="frontend.account.tickets.page", options={"seo"="false"}, methods={"GET"})
+     * @Route("/account/ticket", name="frontend.account.tickets.page", methods={"GET"})
      * @param Request $request
      * @param SalesChannelContext $context
      * @return Response
+     * @LoginRequired()
      */
     public function index(Request $request, SalesChannelContext $context)
     {

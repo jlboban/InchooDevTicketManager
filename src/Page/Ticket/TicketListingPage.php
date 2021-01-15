@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace InchooDev\TicketManager\Page\Ticket\Listing;
+namespace InchooDev\TicketManager\Page\Ticket;
 
 use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;
 use Shopware\Storefront\Page\Page;

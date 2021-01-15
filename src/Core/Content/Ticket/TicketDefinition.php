@@ -2,6 +2,7 @@
 
 namespace InchooDev\TicketManager\Core\Content\Ticket;
 
+use GuzzleHttp\Tests\Stream\Str;
 use Shopware\Core\Checkout\Customer\CustomerDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\BoolField;
@@ -39,11 +40,11 @@ class TicketDefinition extends EntityDefinition
             (new IdField('id', 'id'))->addFlags(new Required(), new PrimaryKey()),
             new BoolField('status', 'status'),
             (new StringField('subject', 'subject'))->addFlags(new Required()),
-            (new LongTextField('content', 'content'))->addFlags(new Required()),
+            (new StringField('content', 'content'))->addFlags(new Required()),
             (new FkField('customer_id', 'customerId', CustomerDefinition::class))
                 ->addFlags(new Required()),
 
-            new ManyToOneAssociationField('customerId', 'customer_id', CustomerDefinition::class)
+            new ManyToOneAssociationField('customer', 'customer_id', CustomerDefinition::class)
         ]);
     }
 }

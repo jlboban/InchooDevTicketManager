@@ -3,6 +3,7 @@
 namespace InchooDev\TicketManager\Core\Content\Ticket;
 
 use InchooDev\TicketManager\Core\Content\TicketReply\TicketReplyCollection;
+use Shopware\Core\Checkout\Customer\CustomerEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
 
@@ -29,6 +30,11 @@ class TicketEntity extends Entity
      * @var TicketReplyCollection|null
      */
     protected $replies;
+
+    /**
+     * @var CustomerEntity|null
+     */
+    protected $customer;
 
     /**
      * @return bool
@@ -92,5 +98,20 @@ class TicketEntity extends Entity
     public function setCustomerId(string $customerId): void
     {
         $this->customerId = $customerId;
+    }
+
+    /**
+     * @return CustomerEntity
+     */
+    public function getCustomer(): CustomerEntity
+    {
+        return $this->customer;
+    }
+    /**
+     * @param CustomerEntity $customer
+     */
+    public function setCustomer(CustomerEntity $customer): void
+    {
+        $this->customer = $customer;
     }
 }

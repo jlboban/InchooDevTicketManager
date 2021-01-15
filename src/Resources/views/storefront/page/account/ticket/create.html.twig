@@ -1,0 +1,85 @@
+{% sw_extends '@Storefront/storefront/page/account/_page.html.twig' %}
+
+{% block page_account_main_content %}
+    {% block page_account_tickets %}
+        <div class="account-orders">
+
+            {% block page_account_tickets_welcome %}
+                <div class="account-welcome">
+                    {% block page_account_tickets_create_welcome_headline %}
+                    <h1>Tickets</h1>
+                    <p>Create a new ticket</p>
+                    {% endblock %}
+                </div>
+            {% endblock %}
+
+            {% block component_ticket_form %}
+            <form class="review-form"
+                  action="{{ path('frontend.account.ticket.save') }}"
+                  method="post"
+                  data-form-csrf-handler="true"
+                  data-form-validation="true">
+
+                {% block component_ticket_form_csrf %}
+                    {{ sw_csrf('frontend.account.ticket.save') }}
+                {% endblock %}
+
+                <div class="form-row">
+                        {% block component_ticket_form_subject %}
+                            <div class="form-group col-md-12">
+
+                                {% block component_ticket_form_subject_label %}
+                                    <div style="padding-bottom: 1rem;">
+                                        <label class="form-label"
+                                               for="ticketSubject">
+                                                Ticket Subject
+                                        </label>
+                                    {% block component_ticket_form_subject_input %}
+                                        <input type="text"
+                                               class="form-control"
+                                               id="ticketSubject"
+                                               name="subject"
+                                               placeholder="Subject"
+                                               required="required">
+                                    {% endblock %}
+                                    </div>
+                                {% endblock %}
+
+                                {% block component_ticket_form_content_label %}
+                                    <label class="form-label"
+                                           for="ticketContent">
+                                        Ticket Content
+                                    </label>
+
+                                    <textarea class="form-control"
+                                              id="ticketContent"
+                                              name="content"
+                                              required="required"
+                                              minlength="40"
+                                              rows="8">
+                                    </textarea>
+                                {% endblock %}
+
+                                <div class="product-detail-review-form-actions pt-3">
+                                    {% block component_ticket_form_content_cancel %}
+                                        <a href="{{ path('frontend.account.tickets.page') }}"
+                                           class="btn btn-outline-secondary product-detail-review-cancel">
+                                           Cancel
+                                        </a>
+                                    {% endblock %}
+
+                                    {% block component_ticket_form_content_submit %}
+                                        <button type="submit"
+                                                class="btn btn-primary">
+                                            Submit
+                                        </button>
+                                    {% endblock %}
+                                </div>
+                            </div>
+                        {% endblock %}
+                    </div>
+            {% endblock %}
+            </form>
+        </div>
+    {% endblock %}
+{% endblock %}

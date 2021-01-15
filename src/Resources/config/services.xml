@@ -10,24 +10,25 @@
         </service>
 
         <service id="InchooDev\TicketManager\Core\Content\TicketReply\TicketReplyDefinition">
-            <tag name="shopware.entity.definition" entity="inchoo_ticket_message" />
+            <tag name="shopware.entity.definition" entity="inchoo_ticket_reply" />
         </service>
 
         <service id="InchooDev\TicketManager\Storefront\Controller\TicketController" public="true">
-            <argument type="service" id="InchooDev\TicketManager\Page\Ticket\Listing\TicketListingPageLoader"/>
+            <argument type="service" id="InchooDev\TicketManager\Page\Ticket\TicketListingPageLoader"/>
         </service>
 
-        <service id="InchooDev\TicketManager\Page\Ticket\Listing\TicketListingPageLoader">
+        <service id="InchooDev\TicketManager\Page\Ticket\TicketListingPageLoader">
             <argument type="service" id="Shopware\Storefront\Page\GenericPageLoader"/>
             <argument type="service" id="inchoo_ticket.repository"/>
         </service>
 
-        <!--
-        <service id="InchooDev\TicketManager\Storefront\Subscriber\AccountPageSubscriber">
-            <argument type="service" id="inchoo_ticket.repository"/>
-            <tag name="kernel.event_subscriber"/>
+        <service id="InchooDev\TicketManager\Storefront\Controller\TicketCreateController" public="true">
+            <argument type="service" id="InchooDev\TicketManager\Page\Ticket\TicketCreatePageLoader"/>
         </service>
-        -->
+
+        <service id="InchooDev\TicketManager\Page\Ticket\TicketCreatePageLoader">
+            <argument type="service" id="Shopware\Storefront\Page\GenericPageLoader"/>
+        </service>
 
     </services>
 </container>
