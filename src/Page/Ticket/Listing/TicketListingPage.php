@@ -2,29 +2,28 @@
 
 namespace InchooDev\TicketManager\Page\Ticket\Listing;
 
-use InchooDev\TicketManager\Core\Content\Ticket\TicketCollection;
-use InchooDev\TicketManager\Core\Content\Ticket\TicketEntity;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityCollection;
 use Shopware\Storefront\Page\Page;
 
 class TicketListingPage extends Page
 {
     /**
-     * @var TicketCollection
+     * @var EntityCollection
      */
     private $tickets;
 
     /**
-     * @return TicketCollection
+     * @return EntityCollection
      */
-    public function getTickets(): TicketCollection
+    public function getTickets(): EntityCollection
     {
         return $this->tickets;
     }
 
     /**
-     * @param TicketCollection $ticket
+     * @param EntityCollection $ticket
      */
-    public function  setTickets(TicketCollection $ticket): void
+    public function  setTickets(EntityCollection $ticket): void
     {
         $this->tickets = $ticket;
     }

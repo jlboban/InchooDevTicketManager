@@ -3,9 +3,9 @@
 {% block page_account_sidebar_menu_inner %}
     {{ parent() }}
 
-    <a href="{{ path('frontend.account.ticket.page') }}"
+    <a href="{{ path('frontend.account.tickets.page') }}"
        title="{# Snippet here: account.ticketLink #}Tickets"
-       class="list-group-item list-group-item-action account-aside-item{% if activeRoute is same as('frontend.account.ticket.page') %} is-active{% endif %}">
+       class="list-group-item list-group-item-action account-aside-item{% if activeRoute is same as('frontend.account.tickets.page') %} is-active{% endif %}">
         {# Snippet here: "account.ticketLink|trans|sw_sanitize" #}
         Tickets
     </a>

@@ -23,7 +23,7 @@ class TicketController extends StorefrontController
     }
 
     /**
-     * @Route("/account/ticket", name="frontend.account.ticket.page", options={"seo"="false"}, methods={"GET"})
+     * @Route("/account/tickets", name="frontend.account.tickets.page", options={"seo"="false"}, methods={"GET"})
      * @param Request $request
      * @param SalesChannelContext $context
      * @return Response
