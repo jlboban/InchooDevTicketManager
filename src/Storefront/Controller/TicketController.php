@@ -2,7 +2,11 @@
 
 namespace InchooDev\TicketManager\Storefront\Controller;
 
+use InchooDev\TicketManager\Page\Ticket\TicketCreatePageLoader;
 use InchooDev\TicketManager\Page\Ticket\TicketListingPageLoader;
+use Shopware\Core\Framework\Context;
+use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Storefront\Controller\StorefrontController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,15 +20,24 @@ use Shopware\Core\Framework\Routing\Annotation\LoginRequired;
  */
 class TicketController extends StorefrontController
 {
-    private $pageLoader;
+    private $ticketListingPageLoader;
+    private $ticketCreatePageLoader;
+    private $ticketRepository;
 
-    public function __construct(TicketListingPageLoader $pageLoader)
+    public function __construct
+    (
+        TicketListingPageLoader $ticketListingPageLoader,
+        TicketCreatePageLoader $ticketCreatePageLoader,
+        EntityRepositoryInterface $ticketRepository
+    )
     {
-        $this->pageLoader = $pageLoader;
+        $this->ticketListingPageLoader = $ticketListingPageLoader;
+        $this->ticketCreatePageLoader = $ticketCreatePageLoader;
+        $this->ticketRepository = $ticketRepository;
     }
 
     /**
-     * @Route("/account/ticket", name="frontend.account.tickets.page", methods={"GET"})
+     * @Route("/account/ticket", name="frontend.account.ticket.page", methods={"GET"})
      * @param Request $request
      * @param SalesChannelContext $context
      * @return Response
@@ -32,8 +45,49 @@ class TicketController extends StorefrontController
      */
     public function index(Request $request, SalesChannelContext $context)
     {
-        $page = $this->pageLoader->load($request, $context);
+        $page = $this->ticketListingPageLoader->load($request, $context);
 
         return $this->renderStorefront('@InchooDev/storefront/page/account/ticket-history/index.html.twig', ['page' => $page]);
+    }
+
+    /**
+     * @Route("/account/ticket/new", name="frontend.account.ticket.create.page", methods={"GET"})
+     * @param Request $request
+     * @param SalesChannelContext $context
+     * @return Response
+     */
+    public function new(Request $request, SalesChannelContext $context)
+    {
+        $page = $this->ticketCreatePageLoader->load($request, $context);
+        return $this->renderStorefront('@InchooDev/storefront/page/account/ticket/create.html.twig', ['page' => $page]);
+    }
+
+    /**
+     * @Route("/account/ticket/save", name="frontend.account.ticket.save", methods={"POST"})
+     * @param Request $request
+     * @param RequestDataBag $data
+     * @param SalesChannelContext $context
+     * @return Response
+     */
+    public function saveTicket(RequestDataBag $data, SalesChannelContext $context)
+    {
+        $subject = $data->get('subject');
+        $content = trim($data->get('content'));
+        $customerId = $context->getCustomer()->getId();
+
+        $this->ticketRepository->upsert(
+            [
+                [
+                    'subject' => $subject,
+                    'content' => $content,
+                    'customerId' => $customerId,
+                ]
+            ],
+            $context->getContext()
+        );
+
+        $this->addFlash('success', 'Successfully created a new ticket.');
+
+        return $this->redirectToRoute('frontend.account.ticket.page');
     }
 }
