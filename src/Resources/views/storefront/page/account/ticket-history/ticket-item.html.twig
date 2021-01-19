@@ -22,13 +22,15 @@
                     </a>
                 {% endblock %}
                 {% block page_account_ticket_item_ticket_table_body_cell_toggle_ticket_close_button %}
-                    <div class="pl-3">
-                        <a href="#"
-                           title="Close"
-                           class="btn btn-lg btn-outline-danger">
-                            Close
-                        </a>
-                    </div>
+                    {% if ticket.status is not same as(0) %}
+                        <div class="pl-3">
+                            <a href="{{ path('frontend.account.ticket.close', {id: ticket.id}) }}"
+                               title="Close"
+                               class="btn btn-lg btn-outline-danger">
+                                Close
+                            </a>
+                        </div>
+                    {% endif %}
                 {% endblock %}
 
             </div>

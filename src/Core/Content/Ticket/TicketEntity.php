@@ -101,16 +101,16 @@ class TicketEntity extends Entity
     }
 
     /**
-     * @return CustomerEntity
+     * @return CustomerEntity|null
      */
-    public function getCustomer(): CustomerEntity
+    public function getCustomer(): ?CustomerEntity
     {
         return $this->customer;
     }
     /**
-     * @param CustomerEntity $customer
+     * @param CustomerEntity|null $customer
      */
-    public function setCustomer(CustomerEntity $customer): void
+    public function setCustomer(?CustomerEntity $customer): void
     {
         $this->customer = $customer;
     }

@@ -32,6 +32,7 @@
         <service id="InchooDev\TicketManager\Page\Ticket\TicketDetailPageLoader">
             <argument type="service" id="Shopware\Storefront\Page\GenericPageLoader"/>
             <argument type="service" id="inchoo_ticket.repository"/>
+            <argument type="service" id="inchoo_ticket_reply.repository"/>
         </service>
 
         <service id="InchooDev\TicketManager\Page\Ticket\TicketCreatePageLoader">

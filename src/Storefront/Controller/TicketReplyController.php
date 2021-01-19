@@ -40,7 +40,8 @@ class TicketReplyController extends StorefrontController
             [
                 [
                     'content' => $content,
-                    'ticket' => ['ticket_id' => $ticketId],
+                    'ticketId' => $ticketId,
+                    'adminId' => $adminId
                 ]
             ],
             $context->getContext()
@@ -48,6 +49,6 @@ class TicketReplyController extends StorefrontController
 
         $this->addFlash('success', 'Successfully replied.');
 
-        return $this->redirectToRoute('frontend.account.ticket.detail.page', [$ticketId]);
+        return $this->redirectToRoute('frontend.account.ticket.detail.page', ['id' => $ticketId]);
     }
 }

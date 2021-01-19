@@ -1,0 +1,46 @@
+<form class="review-form"
+      action="{{ path('frontend.account.ticket.reply', {id: page.ticket.id}) }}"
+      method="post"
+      data-form-csrf-handler="true"
+      data-form-validation="true">
+
+    {% block component_ticket_reply_form_csrf %}
+        {{ sw_csrf('frontend.account.ticket.reply') }}
+    {% endblock %}
+
+    <div class="form-row">
+        {% block component_ticket_reply_form_subject %}
+            <div class="form-group col-md-12">
+
+                {% block component_ticket_reply_form_subject_label %}
+                    <div style="padding-bottom: 1rem;">
+                        <label class="form-label"
+                               for="ticketReply">
+                            <h4>Reply</h4>
+                        </label>
+                    </div>
+                {% endblock %}
+
+                {% block component_ticket_reply_form_content %}
+                    <textarea class="form-control"
+                              id="ticketReply"
+                              name="content"
+                              required="required"
+                              rows="3">
+                                </textarea>
+                {% endblock %}
+
+                <input type="hidden" name="ticketId" value="{{ page.ticket.id }}">
+
+                <div class="product-detail-review-form-actions pt-3">
+                    {% block component_ticket_form_content_submit %}
+                        <button type="submit"
+                                class="btn btn-primary">
+                            Submit
+                        </button>
+                    {% endblock %}
+                </div>
+            </div>
+        {% endblock %}
+    </div>
+</form>

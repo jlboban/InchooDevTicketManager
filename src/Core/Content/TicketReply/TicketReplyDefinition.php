@@ -41,8 +41,8 @@ class TicketReplyDefinition extends EntityDefinition
                 ->addFlags(new Required()),
             (new FkField('admin_id', 'adminId', UserDefinition::class)),
 
-            new ManyToOneAssociationField('ticketId', 'ticket_id', TicketDefinition::class),
-            new ManyToOneAssociationField('adminId', 'admin_id', UserDefinition::class)
+            new ManyToOneAssociationField('ticket', 'ticket_id', TicketDefinition::class, 'id', false),
+            new ManyToOneAssociationField('admin', 'admin_id', UserDefinition::class, 'id', false)
         ]);
     }
 }

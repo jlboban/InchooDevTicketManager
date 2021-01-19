@@ -105,4 +105,28 @@ class TicketController extends StorefrontController
 
         return $this->redirectToRoute('frontend.account.ticket.page');
     }
+
+    /**
+     * @Route("/account/ticket/close", name="frontend.account.ticket.close", methods={"GET"})
+     * @param Request $request
+     * @param SalesChannelContext $context
+     * @return Response
+     */
+    public function closeTicket(Request $request, SalesChannelContext $context)
+    {
+        $id = $request->get('id');
+
+        $this->ticketRepository->update(
+            [
+                [
+                    'id' => $id,
+                    'status' => false,
+                ]
+            ],
+            $context->getContext()
+        );
+
+        $this->addFlash('success', 'Successfully closed ticket.');
+        return $this->redirectToRoute('frontend.account.ticket.page');
+    }
 }
