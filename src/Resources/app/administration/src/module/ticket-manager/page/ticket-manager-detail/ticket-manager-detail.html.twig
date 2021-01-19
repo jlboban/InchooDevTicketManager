@@ -1,0 +1,25 @@
+<sw-page class="ticket-manager-detail">
+    <template slot="smart-bar-actions">
+        <sw-button :routerLink="{ name: 'ticket.manager.list' }">
+            {{ $t('ticket-manager.detail.cancelButtonText') }}
+        </sw-button>
+
+        <sw-button-process
+                :isLoading="isLoading"
+                :processSuccess="processSuccess"
+                variant="primary"
+                @process-finish="saveFinish"
+                @click="onClickSave">
+            {{ $t('ticket-manager.detail.saveButtonText') }}
+        </sw-button-process>
+    </template>
+
+    <template slot="content">
+        <sw-card-view>
+            <sw-card v-if="ticket" :isLoading="isLoading">
+                <sw-field :label="$t('ticket-manager.detail.subjectLabel')" v-model="ticket.subject"></sw-field>
+
+            </sw-card>
+        </sw-card-view>
+    </template>
+</sw-page>

@@ -1,0 +1,18 @@
+{
+  "ticket-manager": {
+    "general": {
+      "mainMenuItemGeneral": "Kundenticket Manager",
+      "descriptionTextModule": "Verwalten Sie Kundentickets"
+    },
+    "list": {
+      "columnName": "Subject"
+    },
+    "detail": {
+      "subjectLabel": "Subject",
+      "contentLabel": "Content",
+      "cancelButtonText": "Cancel",
+      "saveButtonText": "Save",
+      "errorTitle": "Error"
+    }
+  }
+}

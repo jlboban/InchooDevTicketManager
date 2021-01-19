@@ -1,0 +1,18 @@
+{
+  "ticket-manager": {
+    "general": {
+      "mainMenuItemGeneral": "Tickets",
+      "descriptionTextModule": "Manage tickets"
+    },
+    "list": {
+      "columnName": "Subject"
+    },
+    "detail": {
+      "subjectLabel": "Subject",
+      "contentLabel": "Content",
+      "cancelButtonText": "Cancel",
+      "saveButtonText": "Save",
+      "errorTitle": "Error"
+    }
+  }
+}
