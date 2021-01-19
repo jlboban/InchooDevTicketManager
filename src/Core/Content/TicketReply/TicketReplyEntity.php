@@ -5,6 +5,7 @@ namespace InchooDev\TicketManager\Core\Content\TicketReply;
 use InchooDev\TicketManager\Core\Content\Ticket\TicketEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\Entity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityIdTrait;
+use Shopware\Core\System\User\UserEntity;
 
 class TicketReplyEntity extends Entity
 {
@@ -23,17 +24,17 @@ class TicketReplyEntity extends Entity
     /**
      * @var string
      */
-    protected $customerId;
-
-    /**
-     * @var string
-     */
     protected $adminId;
 
     /**
      * @var TicketEntity|null
      */
     protected $ticket;
+
+    /**
+     * @var UserEntity|null
+     */
+    protected $admin;
 
     /**
      * @return string
@@ -81,5 +82,37 @@ class TicketReplyEntity extends Entity
     public function setAdminId(string $adminId): void
     {
         $this->adminId = $adminId;
+    }
+
+    /**
+     * @return TicketEntity|null
+     */
+    public function getTicket(): ?TicketEntity
+    {
+        return $this->ticket;
+    }
+
+    /**
+     * @param TicketEntity|null $ticket
+     */
+    public function setTicket(?TicketEntity $ticket): void
+    {
+        $this->ticket = $ticket;
+    }
+
+    /**
+     * @return UserEntity|null
+     */
+    public function getAdmin(): ?UserEntity
+    {
+        return $this->admin;
+    }
+
+    /**
+     * @param UserEntity|null $admin
+     */
+    public function setAdmin(?UserEntity $admin): void
+    {
+        $this->admin = $admin;
     }
 }

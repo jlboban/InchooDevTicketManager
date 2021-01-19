@@ -37,11 +37,11 @@ class TicketEntity extends Entity
     protected $customer;
 
     /**
-     * @return bool
+     * @return int
      */
-    public function getStatus(): bool
+    public function getStatus(): int
     {
-        return (bool)$this->status;
+        return (int)$this->status;
     }
 
     /**

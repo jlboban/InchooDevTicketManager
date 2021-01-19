@@ -15,11 +15,21 @@
 
         <service id="InchooDev\TicketManager\Storefront\Controller\TicketController" public="true">
             <argument type="service" id="InchooDev\TicketManager\Page\Ticket\TicketListingPageLoader"/>
+            <argument type="service" id="InchooDev\TicketManager\Page\Ticket\TicketDetailPageLoader"/>
             <argument type="service" id="InchooDev\TicketManager\Page\Ticket\TicketCreatePageLoader"/>
             <argument type="service" id="inchoo_ticket.repository"/>
         </service>
 
+        <service id="InchooDev\TicketManager\Storefront\Controller\TicketReplyController" public="true">
+            <argument type="service" id="inchoo_ticket_reply.repository"/>
+        </service>
+
         <service id="InchooDev\TicketManager\Page\Ticket\TicketListingPageLoader">
+            <argument type="service" id="Shopware\Storefront\Page\GenericPageLoader"/>
+            <argument type="service" id="inchoo_ticket.repository"/>
+        </service>
+
+        <service id="InchooDev\TicketManager\Page\Ticket\TicketDetailPageLoader">
             <argument type="service" id="Shopware\Storefront\Page\GenericPageLoader"/>
             <argument type="service" id="inchoo_ticket.repository"/>
         </service>

@@ -3,8 +3,8 @@
 namespace InchooDev\TicketManager\Storefront\Controller;
 
 use InchooDev\TicketManager\Page\Ticket\TicketCreatePageLoader;
+use InchooDev\TicketManager\Page\Ticket\TicketDetailPageLoader;
 use InchooDev\TicketManager\Page\Ticket\TicketListingPageLoader;
-use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Storefront\Controller\StorefrontController;
@@ -17,21 +17,25 @@ use Shopware\Core\Framework\Routing\Annotation\LoginRequired;
 
 /**
  * @RouteScope(scopes={"storefront"})
+ * @LoginRequired()
  */
 class TicketController extends StorefrontController
 {
     private $ticketListingPageLoader;
+    private $ticketDetailPageLoader;
     private $ticketCreatePageLoader;
     private $ticketRepository;
 
     public function __construct
     (
         TicketListingPageLoader $ticketListingPageLoader,
+        TicketDetailPageLoader $ticketDetailPageLoader,
         TicketCreatePageLoader $ticketCreatePageLoader,
         EntityRepositoryInterface $ticketRepository
     )
     {
         $this->ticketListingPageLoader = $ticketListingPageLoader;
+        $this->ticketDetailPageLoader = $ticketDetailPageLoader;
         $this->ticketCreatePageLoader = $ticketCreatePageLoader;
         $this->ticketRepository = $ticketRepository;
     }
@@ -41,13 +45,25 @@ class TicketController extends StorefrontController
      * @param Request $request
      * @param SalesChannelContext $context
      * @return Response
-     * @LoginRequired()
      */
     public function index(Request $request, SalesChannelContext $context)
     {
         $page = $this->ticketListingPageLoader->load($request, $context);
 
         return $this->renderStorefront('@InchooDev/storefront/page/account/ticket-history/index.html.twig', ['page' => $page]);
+    }
+
+    /**
+     * @Route("/account/ticket/detail/{id}", name="frontend.account.ticket.detail.page", methods={"GET"})
+     * @param Request $request
+     * @param SalesChannelContext $context
+     * @return Response
+     */
+    public function detail(Request $request, SalesChannelContext $context)
+    {
+        $page = $this->ticketDetailPageLoader->load($request, $context);
+
+        return $this->renderStorefront('@InchooDev/storefront/page/account/ticket/detail.html.twig', ['page' => $page]);
     }
 
     /**
@@ -64,7 +80,6 @@ class TicketController extends StorefrontController
 
     /**
      * @Route("/account/ticket/save", name="frontend.account.ticket.save", methods={"POST"})
-     * @param Request $request
      * @param RequestDataBag $data
      * @param SalesChannelContext $context
      * @return Response

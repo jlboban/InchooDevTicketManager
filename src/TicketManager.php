@@ -24,6 +24,6 @@ class TicketManager extends Plugin
         $connection = $this->container->get(Connection::class);
 
         $connection->executeUpdate('DROP TABLE IF EXISTS `inchoo_ticket`');
-        $connection->executeUpdate('DROP TABLE IF EXISTS `inchoo_ticket_message`');
+        $connection->executeUpdate('DROP TABLE IF EXISTS `inchoo_ticket_reply`');
     }
 }

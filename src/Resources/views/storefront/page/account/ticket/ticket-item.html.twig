@@ -1,0 +1,22 @@
+{% block page_account_order_item_overview %}
+    <div class="order-wrapper border">
+        <div class="order-item-header">
+            <div class="row">
+                {% block page_account_order_item_heading %}
+                    <h4 class="col-4 order-table-header-heading">{{ page.ticket.subject }}</h4>
+
+                    {% if page.ticket.status == 0 %}
+                        <h4 class="col-4 order-table-header-heading">Status: CLOSED</h4>
+                    {% else %}
+                        <h4 class="col-4 order-table-header-heading">Status: OPEN</h4>
+                    {% endif %}
+                    <h4 class="col-4 order-table-header-heading">{{ page.ticket.createdAt|format_datetime('short', 'short') }}</h4>
+                {% endblock %}
+            </div>
+        </div>
+
+        <div class="order-item-detail-summary p-5">
+            {{ page.ticket.content }}
+        </div>
+    </div>
+{% endblock %}
