@@ -34,14 +34,12 @@ class TicketReplyController extends StorefrontController
     {
         $content = trim($data->get('content'));
         $ticketId = $data->get('ticketId');
-        $adminId = $data->get('adminId') ?? null;
 
         $this->ticketReplyRepository->create(
             [
                 [
                     'content' => $content,
-                    'ticketId' => $ticketId,
-                    'adminId' => $adminId
+                    'ticketId' => $ticketId
                 ]
             ],
             $context->getContext()

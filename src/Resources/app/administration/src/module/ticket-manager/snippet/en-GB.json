@@ -5,11 +5,17 @@
       "descriptionTextModule": "Manage tickets"
     },
     "list": {
-      "columnName": "Subject"
+      "columnStatus": "Status",
+      "columnSubject": "Subject",
+      "columnContent": "Content",
+      "columnCustomer": "Customer",
+      "columnCreatedAt": "Created at"
     },
     "detail": {
+      "statusLabel": "Status",
       "subjectLabel": "Subject",
       "contentLabel": "Content",
+      "closeTicketLabel": "Close ticket",
       "cancelButtonText": "Cancel",
       "saveButtonText": "Save",
       "errorTitle": "Error"

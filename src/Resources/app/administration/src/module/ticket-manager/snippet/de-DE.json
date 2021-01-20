@@ -5,13 +5,17 @@
       "descriptionTextModule": "Verwalten Sie Kundentickets"
     },
     "list": {
-      "columnName": "Subject"
+      "columnSubject": "Gegenstand",
+      "columnContent": "Inhalt",
+      "columnCustomer": "Kunde",
+      "columnCreatedAt": "Hergestellt in"
     },
     "detail": {
-      "subjectLabel": "Subject",
-      "contentLabel": "Content",
-      "cancelButtonText": "Cancel",
-      "saveButtonText": "Save",
+      "subjectLabel": "Gegenstand",
+      "contentLabel": "Inhalt",
+      "closeTicketLabel": "Ticket schließen",
+      "cancelButtonText": "Stornieren",
+      "saveButtonText": "Speichern",
       "errorTitle": "Error"
     }
   }

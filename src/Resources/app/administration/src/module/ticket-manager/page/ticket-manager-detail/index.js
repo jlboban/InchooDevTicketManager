@@ -1,16 +1,12 @@
 import template from './ticket-manager-detail.html.twig';
 
-const { Component, Mixin } = Shopware;
+const Criteria = Shopware.Data.Criteria;
 
 Shopware.Component.register('ticket-manager-detail', {
     template,
 
     inject: [
         'repositoryFactory'
-    ],
-
-    mixins: [
-        Mixin.getByName('notification')
     ],
 
     metaInfo() {
@@ -22,10 +18,19 @@ Shopware.Component.register('ticket-manager-detail', {
     data() {
         return {
             ticket: null,
-            isLoading: false,
-            processSuccess: false,
+            replies: null,
             repository: null
         };
+    },
+
+    computed: {
+      ticketCriteria(){
+          const criteria = new Criteria()
+              .addFilter(Criteria.equals('id', this.$route.params.id))
+              .addAssociation('replies');
+
+          return criteria;
+        },
     },
 
     created() {
@@ -36,32 +41,18 @@ Shopware.Component.register('ticket-manager-detail', {
     methods: {
         getTicket() {
             this.repository
-                .get(this.$route.params.id, Shopware.Context.api)
+                .search(this.ticketCriteria, Shopware.Context.api)
                 .then((entity) => {
-                    this.ticket = entity;
+                    this.ticket = entity.first();
                 });
         },
 
-        onClickSave() {
-            this.isLoading = true;
-
-            this.repository
-                .save(this.ticket, Shopware.Context.api)
-                .then(() => {
-                    this.getTicket();
-                    this.isLoading = false;
-                    this.processSuccess = true;
-                }).catch((exception) => {
-                this.isLoading = false;
-                this.createNotificationError({
-                    title: this.$tc('ticket-manager.detail.errorTitle'),
-                    message: exception
-                });
-            });
+        onTicketClose(){
+            this.repository.update()
         },
 
-        saveFinish() {
-            this.processSuccess = false;
-        },
+        onCreateReply(){
+
+        }
     }
 });

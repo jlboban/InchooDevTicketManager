@@ -27,13 +27,33 @@ Component.register('ticket-manager-list', {
     computed: {
         columns() {
             return [{
-                property: 'name',
-                dataIndex: 'name',
-                label: this.$tc('ticket-manager.list.columnName'),
-                routerLink: 'ticket-manager.ticket.detail',
-                inlineEdit: 'string',
+                property: 'status',
+                dataIndex: 'status',
+                label: this.$tc('ticket-manager.list.columnStatus'),
+                routerLink: 'ticket.manager.detail',
                 allowResize: true,
                 primary: true
+            },{
+                property: 'subject',
+                dataIndex: 'subject',
+                label: this.$tc('ticket-manager.list.columnSubject'),
+                routerLink: 'ticket.manager.detail',
+                allowResize: true,
+            }, {
+                property: 'content',
+                dataIndex: 'content',
+                label: this.$tc('ticket-manager.list.columnContent'),
+                allowResize: true,
+            }, {
+                property: 'customer.fullName',
+                dataIndex: 'customer',
+                label: this.$tc('ticket-manager.list.columnCustomer'),
+                allowResize: true
+            }, {
+                property: 'createdAt',
+                dataIndex: 'createdAt',
+                label: this.$tc('ticket-manager.list.columnCreatedAt'),
+                allowResize: true
             }];
         }
     },
@@ -42,9 +62,12 @@ Component.register('ticket-manager-list', {
         this.repository = this.repositoryFactory.create('inchoo_ticket');
 
         this.repository
-            .search(new Criteria(), Shopware.Context.api)
+            .search(new Criteria().addAssociation('customer'), Shopware.Context.api)
             .then((result) => {
-                this.tickets = result;
+                this.tickets = result
+                this.tickets.forEach((ticket) => {
+                    ticket.customer.fullName = ticket.customer.firstName + " " + ticket.customer.lastName
+                });
             });
     }
 });

@@ -1,25 +1,45 @@
 <sw-page class="ticket-manager-detail">
-    <template slot="smart-bar-actions">
-        <sw-button :routerLink="{ name: 'ticket.manager.list' }">
-            {{ $t('ticket-manager.detail.cancelButtonText') }}
-        </sw-button>
-
-        <sw-button-process
-                :isLoading="isLoading"
-                :processSuccess="processSuccess"
-                variant="primary"
-                @process-finish="saveFinish"
-                @click="onClickSave">
-            {{ $t('ticket-manager.detail.saveButtonText') }}
-        </sw-button-process>
-    </template>
 
     <template slot="content">
-        <sw-card-view>
-            <sw-card v-if="ticket" :isLoading="isLoading">
-                <sw-field :label="$t('ticket-manager.detail.subjectLabel')" v-model="ticket.subject"></sw-field>
+        <sw-card-view v-if="ticket">
+            <sw-card>
+                <sw-card v-if="ticket.status==true">OPEN</sw-card>
+                <sw-card v-else>CLOSED</sw-card>
+                <sw-card>{{ ticket.subject }}</sw-card>
+                <sw-card>{{ ticket.content }}</sw-card>
+
+                <sw-button @click="onTicketClose"
+                           variant="danger"
+                           :block="true">
+                    Close ticket
+                </sw-button>
 
             </sw-card>
+            <sw-card title="Replies" :hero="true" :isLoading="false" v-if="ticket.replies"
+                     listRoute="ticket.manager.list" >
+                {% block ticket_manager_list_content %}
+
+                    <sw-card :hero="false" :isLoading="false" :large="false"
+                             :showSelection="false" v-for="reply in ticket.replies">
+                        {{ ticket.customer }}
+                        {{ reply.content }}
+                    </sw-card>
+
+                {% endblock %}
+            </sw-card>
+
+            <sw-card title="Reply" :isLoading="false">
+                <sw-textarea-field type="textarea" label="Reply" placeholder="Content">
+
+                </sw-textarea-field>
+
+
+                <sw-button @click="onCreateReply" :disabled="false" variant="primary" size="large" :square="false" :block="true" :isLoading="false">
+                    Post reply
+                </sw-button>
+            </sw-card>
         </sw-card-view>
+
+
     </template>
 </sw-page>

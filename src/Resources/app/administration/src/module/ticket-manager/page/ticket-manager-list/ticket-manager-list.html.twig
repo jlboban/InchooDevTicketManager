@@ -1,7 +1,16 @@
 {% block ticket_manager_list %}
-    <sw-page class="ticket-manager-list">
+    <sw-page class="ticket-list">
         <template slot="content">
-            <h2>Hello world!</h2>
+            {% block ticket_manager_list_content %}
+                <sw-entity-listing
+                        v-if="tickets"
+                        :items="tickets"
+                        :repository="repository"
+                        :showSelection="false"
+                        :columns="columns"
+                        detailRoute="ticket.manager.detail">
+                </sw-entity-listing>
+            {% endblock %}
         </template>
     </sw-page>
 {% endblock %}
