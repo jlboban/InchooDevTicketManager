@@ -4,9 +4,9 @@
 <div class="row pt-3">
     <div class="col-10 border border-dark">
         <div class="order-item-header">
-            <h3>{{ page.ticket.customer }}</h3>
+            <h4 class="pt-3">{{ page.ticket.customer }}</h4>
         </div>
-        <div class="p-2 pl-5">
+        <div class="pl-5">
             {{ reply.content }}
         </div>
         <div class="order-item-detail-footer">
@@ -18,14 +18,14 @@
 <div class="row pt-3">
     <div class="col-2"></div>
     <div class="col-10 border border-success">
-        <div class="order-item-header">
-            <h3>POSTER NAME</h3>
+        <div class="order-item-header pt-3">
+            <h4 class="pt-3">Admin</h4>
         </div>
         <div class="p-2 pl-5">
-            {{ page.ticket.content }}
+            {{ reply.content }}
         </div>
         <div class="order-item-detail-footer">
-            <small>18/01/2021, 08:51</small>
+            <small>{{ reply.createdAt|format_datetime('short', 'short') }}</small>
         </div>
     </div>
 </div>

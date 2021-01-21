@@ -51,7 +51,10 @@ class TicketListingPageLoader
 
         $criteria = (new Criteria())
             ->addFilter(new EqualsFilter('customerId', $customerId))
-            ->addSorting(new FieldSorting('status'));
+            ->addSorting(
+                new FieldSorting('status', FieldSorting::DESCENDING),
+                new FieldSorting('createdAt', FieldSorting::DESCENDING)
+            );
 
         $tickets = $this->ticketRepository->search($criteria, $salesChannelContext->getContext())->getEntities();
         return $tickets;

@@ -17,7 +17,7 @@ class Migration1610705295TicketReply extends MigrationStep
         $connection->executeUpdate('
             CREATE TABLE IF NOT EXISTS `inchoo_ticket_reply` (
               `id` BINARY(16) NOT NULL,
-              `content` VARCHAR(255) NOT NULL,
+              `content` TEXT NOT NULL,
               `ticket_id` BINARY(16) NOT NULL,
               `admin_id` BINARY(16),
               `created_at` DATETIME(3) NOT NULL,

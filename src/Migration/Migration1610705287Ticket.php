@@ -19,7 +19,7 @@ class Migration1610705287Ticket extends MigrationStep
               `id` BINARY(16) NOT NULL,
               `status` TINYINT(1) NOT NULL DEFAULT 1,
               `subject` VARCHAR(255) NOT NULL,
-              `content` VARCHAR(255) NOT NULL,
+              `content` TEXT NOT NULL,
               `customer_id` BINARY(16) NOT NULL,
               `created_at` DATETIME(3) NOT NULL,
               `updated_at` DATETIME(3) NULL,

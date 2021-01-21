@@ -2,16 +2,16 @@
     <div class="order-wrapper">
         <div class="order-item-header">
             <div class="row">
-
                 {% block page_account_order_item_heading %}
-                    <h4 class="col-12 order-table-header-heading">{{ ticket.subject }}</h4>
+                    <h5 class="col-12 order-table-header-heading">{{ ticket.subject }}</h5>
 
                     {% if ticket.status == 0 %}
-                        <h4 class="col-12 order-table-header-heading">Status: CLOSED</h4>
+                        <h4 class="col-12 order-table-header-heading" style="color: red">CLOSED</h4>
                     {% else %}
-                        <h4 class="col-12 order-table-header-heading">Status: OPEN</h4>
+                        <h4 class="col-12 order-table-header-heading" style="color: green">OPEN</h4>
                     {% endif %}
-                    <h4 class="col-12 order-table-header-heading">{{ ticket.createdAt|format_datetime('short', 'short') }}</h4>
+                    <small class="col-8 order-table-header-heading">{{ ticket.createdAt|format_datetime('short', 'short') }}</small>
+
                 {% endblock %}
 
                 {% block page_account_ticket_item_ticket_table_body_cell_toggle_ticket_details_button %}

@@ -3,7 +3,6 @@
 namespace InchooDev\TicketManager\Page\Ticket;
 
 use InchooDev\TicketManager\Core\Content\Ticket\TicketEntity;
-use InchooDev\TicketManager\Core\Content\TicketReply\TicketReplyCollection;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
@@ -24,21 +23,14 @@ class TicketDetailPageLoader
      */
     private $ticketRepository;
 
-    /**
-     * @var EntityRepositoryInterface
-     */
-    private $ticketReplyRepository;
-
     public function __construct
     (
         GenericPageLoaderInterface $genericPageLoader,
-        EntityRepositoryInterface $ticketRepository,
-        EntityRepositoryInterface $ticketReplyRepository
+        EntityRepositoryInterface $ticketRepository
     )
     {
         $this->genericPageLoader = $genericPageLoader;
         $this->ticketRepository = $ticketRepository;
-        $this->ticketReplyRepository = $ticketReplyRepository;
     }
 
     public function load(Request $request, SalesChannelContext $context): TicketDetailPage
@@ -49,8 +41,7 @@ class TicketDetailPageLoader
         $page = TicketDetailPage::createFrom($page);
 
         /** @var TicketEntity $ticket */
-        $ticket = $this->getTicket($context, $ticketId);
-        $ticket->setReplies($this->getTicketReplies($context, $ticketId));
+        $ticket = $this->getTicket($context, $ticketId);;
 
         $page->setTicket($ticket);
 
@@ -62,22 +53,9 @@ class TicketDetailPageLoader
         $criteria = (new Criteria())
             ->addFilter(new EqualsFilter('id', $ticketId))
             ->addAssociation('customer')
-            ->addSorting(new FieldSorting('createdAt', 'ASC'))
-            ->addSorting(new FieldSorting('status', 'DESC'));
-
+            ->addAssociation('replies');
 
         $ticket = $this->ticketRepository->search($criteria, $context->getContext())->getEntities()->first();
         return $ticket;
-    }
-
-    private function getTicketReplies(SalesChannelContext $context, string $ticketId): ?TicketReplyCollection
-    {
-        $criteria = (new Criteria())
-            ->getAssociation('inchoo_ticket')
-            ->addSorting(new FieldSorting('createdAt', 'ASC'))
-            ->addFilter(new EqualsFilter('ticketId', $ticketId));
-
-        $replies = $this->ticketReplyRepository->search($criteria, $context->getContext())->getEntities();
-        return $replies;
     }
 }
