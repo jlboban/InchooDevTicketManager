@@ -4,6 +4,15 @@
         <sw-button :routerLink="{ name: 'ticket.manager.list' }">
             {{ $t('ticket-manager.detail.cancelButtonText') }}
         </sw-button>
+        <sw-button-process
+                v-if="ticket.status == 1"
+                :isLoading="isLoading"
+                :processSuccess="processSuccess"
+                variant="danger"
+                @process-finish="saveFinish"
+                @click="onTicketClose">
+            {{ $t('ticket-manager.detail.closeTicketLabel') }}
+        </sw-button-process>
     </template>
 
     <template slot="content">
@@ -16,8 +25,13 @@
                 </sw-card>
 
                 <h2>{{ $t('ticket-manager.detail.statusLabel') }}</h2>
-                <sw-card v-if="ticket.status==true"><strong>OPEN</strong></sw-card>
-                <sw-card v-else><strong>CLOSED</strong></sw-card>
+                <sw-card v-if="ticket.status == 1">
+                    <strong style="color: green;">OPEN</strong>
+                </sw-card>
+
+                <sw-card v-else>
+                    <strong style="color: red;">CLOSED</strong>
+                </sw-card>
 
                 <h2>{{ $t('ticket-manager.detail.subjectLabel') }}</h2>
                 <sw-card>{{ ticket.subject }}</sw-card>
@@ -26,42 +40,44 @@
                 <sw-card style="overflow: auto; word-wrap: anywhere">
                     {{ ticket.content }}
                 </sw-card>
-
-                <sw-button-process
-                        v-if="ticket.status == 1"
-                        :block="true"
-                        :isLoading="isLoading"
-                        :processSuccess="processSuccess"
-                        variant="danger"
-                        @process-finish="saveFinish"
-                        @click="onClickSave">
-                    {{ $t('ticket-manager.detail.closeTicketLabel') }}
-                </sw-button-process>
             </sw-card>
 
-            <sw-card title="Replies" :isLoading="false" v-if="ticket.replies"
+            <sw-card title="Replies" :isLoading="false" v-if="ticket.replies.length !== 0"
                      listRoute="ticket.manager.list" >
                 {% block ticket_manager_list_content %}
 
                     <sw-card :hero="false" :isLoading="false" :large="false"
                              :showSelection="false" v-for="reply in ticket.replies">
-                        <sw-avatar color="#00c5dd"
-                                   size="32px"
-                                   firstName="ticket.customer.firstName"
-                                   style="margin-bottom: 20px;"
-                                   lastName="ticket.customer.lastName"></sw-avatar>
-                        {{ ticket.customer.firstName }}{{ ticket.customer.lastName }}
-                        <br>
-                        {{ reply.content }}
+
+                        <div v-if="reply.adminId == null">
+                            <sw-avatar color="#00c5dd"
+                                       size="32px"
+                                       firstName="ticket.customer.firstName"
+                                       style="margin-bottom: 20px;"
+                                       lastName="ticket.customer.lastName">
+                            </sw-avatar>
+                            <h2>{{ ticket.customer.firstName }} {{ ticket.customer.lastName }}</h2>
+                            <br>
+                            <p>{{ reply.content }}</p>
+                        </div>
+
+                        <div v-else>
+                            <sw-avatar color="#dd0013"
+                                       size="32px"
+                                       firstName="A"
+                                       style="margin-bottom: 20px;">
+                            </sw-avatar>
+                            <h2>Admin</h2>
+                            <br>
+                            <p>{{ reply.content }}</p>
+                        </div>
                     </sw-card>
 
                 {% endblock %}
             </sw-card>
 
             <sw-card title="Reply" :isLoading="false" v-if="ticket.status == 1">
-                <sw-textarea-field type="textarea" placeholder="Content" v-model="newReply.content">
-
-                </sw-textarea-field>
+                <sw-textarea-field type="textarea" placeholder="Content" v-model="newReply.content"></sw-textarea-field>
 
                 <sw-button-process
                         size="large"
@@ -69,7 +85,6 @@
                         :isLoading="isLoading"
                         :processSuccess="processSuccess"
                         variant="primary"
-                        @process-finish="saveFinish"
                         @click="onCreateReply">
                     {{ $t('ticket-manager.detail.postReplyLabel') }}
                 </sw-button-process>

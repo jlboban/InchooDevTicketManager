@@ -3,12 +3,12 @@
         <div class="order-item-header">
             <div class="row">
                 {% block page_account_order_item_heading %}
-                    <h4 class="col-12 order-table-header-heading pr-3">{{ page.ticket.subject }}</h4>
+                    <h4 class="col-12 order-table-header-heading pr-3" style="word-wrap: break-word;">{{ page.ticket.subject }}</h4>
 
                     {% if page.ticket.status == 0 %}
-                        <h4 class="col-12 order-table-header-heading" style="color: red">CLOSED</h4>
+                        <h4 class="col-12 order-table-header-heading pl-5" style="color: red">CLOSED</h4>
                     {% else %}
-                        <h4 class="col-12 order-table-header-heading" style="color: green">OPEN</h4>
+                        <h4 class="col-12 order-table-header-heading pl-5" style="color: green">OPEN</h4>
                     {% endif %}
                     <h6 class="col-2 order-table-header-heading">{{ page.ticket.createdAt|format_datetime('short', 'short') }}</h6>
                 {% endblock %}

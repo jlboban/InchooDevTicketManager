@@ -30,8 +30,7 @@ Component.register('ticket-manager-list', {
                 property: 'status',
                 dataIndex: 'status',
                 label: this.$tc('ticket-manager.list.columnStatus'),
-                routerLink: 'ticket.manager.detail',
-                allowResize: true,
+                inlineEdit: 'boolean',
                 primary: true,
                 naturalSorting: true
             },{
@@ -40,6 +39,7 @@ Component.register('ticket-manager-list', {
                 label: this.$tc('ticket-manager.list.columnSubject'),
                 routerLink: 'ticket.manager.detail',
                 allowResize: true,
+                primary: true
             }, {
                 property: 'createdAt',
                 dataIndex: 'createdAt',

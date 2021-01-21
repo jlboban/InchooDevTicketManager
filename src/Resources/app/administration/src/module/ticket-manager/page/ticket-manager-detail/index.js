@@ -38,7 +38,7 @@ Shopware.Component.register('ticket-manager-detail', {
           const criteria = new Criteria()
               .addFilter(Criteria.equals('id', this.$route.params.id))
               .addAssociation('customer')
-              .addAssociation('replies');
+              .addAssociation('replies')
 
           return criteria;
         },
@@ -64,10 +64,10 @@ Shopware.Component.register('ticket-manager-detail', {
             this.newReply = this.replyRepository.create(Shopware.Context.api);
         },
 
-        onClickSave(){
-
+        onTicketClose(){
             this.isLoading = true;
             this.ticket.status = false;
+
             this.ticketRepository
                 .save(this.ticket, Shopware.Context.api)
                 .then(() => {
@@ -93,8 +93,9 @@ Shopware.Component.register('ticket-manager-detail', {
                 .save(this.newReply, Shopware.Context.api)
                 .then(() => {
                     this.isLoading = false;
+                    this.processSuccess = true;
                     this.$router.push({ name: 'ticket.manager.detail', params: { id: this.ticket.id } });
-                    this.saveFinish()
+
                 }).catch((exception) => {
                 this.isLoading = false;
 
@@ -106,7 +107,7 @@ Shopware.Component.register('ticket-manager-detail', {
         },
 
         saveFinish() {
-            this.processSuccess = false;
+            this.processSuccess = true;
         }
     }
 });

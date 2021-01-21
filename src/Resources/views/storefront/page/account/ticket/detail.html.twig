@@ -10,7 +10,7 @@
                 {% if page.ticket.replies is not empty %}
                 <h3 class="pt-3">Replies: </h3>
                 {% endif %}
-                {% for reply in page.ticket.replies %}
+                {% for reply in page.ticket.replies|sort((a, b) => a.createdAt <=> b.createdAt) %}
                     {% sw_include '@InchooDev/storefront/page/account/ticket/_ticket-reply.html.twig' %}
                 {% endfor %}
             </div>
