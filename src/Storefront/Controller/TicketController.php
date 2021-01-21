@@ -90,19 +90,23 @@ class TicketController extends StorefrontController
         $content = trim($data->get('content'));
         $customerId = $context->getCustomer()->getId();
 
-        $this->ticketRepository->upsert(
-            [
+        try {
+            $this->ticketRepository->upsert(
                 [
-                    'subject' => $subject,
-                    'content' => $content,
-                    'customerId' => $customerId,
-                ]
-            ],
-            $context->getContext()
-        );
+                    [
+                        'subject' => $subject,
+                        'content' => $content,
+                        'customerId' => $customerId,
+                    ]
+                ],
+                $context->getContext()
+            );
+        } catch (\Exception $e) {
+            $this->addFlash('danger', 'Content field should not be blank.');
+            return $this->redirectToRoute('frontend.account.ticket.create.page');
+        }
 
         $this->addFlash('success', 'Successfully created a new ticket.');
-
         return $this->redirectToRoute('frontend.account.ticket.page');
     }
 
@@ -116,15 +120,20 @@ class TicketController extends StorefrontController
     {
         $id = $request->get('id');
 
-        $this->ticketRepository->update(
-            [
+        try {
+            $this->ticketRepository->update(
                 [
-                    'id' => $id,
-                    'status' => false,
-                ]
-            ],
-            $context->getContext()
-        );
+                    [
+                        'id' => $id,
+                        'status' => false,
+                    ]
+                ],
+                $context->getContext()
+            );
+        } catch (\Exception $e) {
+            $this->addFlash('danger', 'Failed to close the ticket. Please try again.');
+            return $this->redirectToRoute('frontend.account.ticket.page');
+        }
 
         $this->addFlash('success', 'Successfully closed ticket.');
         return $this->redirectToRoute('frontend.account.ticket.page');

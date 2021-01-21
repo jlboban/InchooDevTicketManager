@@ -32,7 +32,8 @@ Component.register('ticket-manager-list', {
                 label: this.$tc('ticket-manager.list.columnStatus'),
                 routerLink: 'ticket.manager.detail',
                 allowResize: true,
-                primary: true
+                primary: true,
+                naturalSorting: true
             },{
                 property: 'subject',
                 dataIndex: 'subject',

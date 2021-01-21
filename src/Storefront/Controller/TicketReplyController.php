@@ -30,23 +30,27 @@ class TicketReplyController extends StorefrontController
      * @param SalesChannelContext $context
      * @return RedirectResponse
      */
-    public function new(RequestDataBag $data, SalesChannelContext $context)
+    public function saveReply(RequestDataBag $data, SalesChannelContext $context)
     {
         $content = trim($data->get('content'));
         $ticketId = $data->get('ticketId');
 
-        $this->ticketReplyRepository->create(
-            [
+        try {
+            $this->ticketReplyRepository->create(
                 [
-                    'content' => $content,
-                    'ticketId' => $ticketId
-                ]
-            ],
-            $context->getContext()
-        );
+                    [
+                        'content' => $content,
+                        'ticketId' => $ticketId
+                    ]
+                ],
+                $context->getContext()
+            );
+        } catch (\Exception $e) {
+            $this->addFlash('danger', 'Content field must not be empty.');
+            return $this->redirectToRoute('frontend.account.ticket.detail.page', ['id' => $ticketId]);
+        }
 
-        $this->addFlash('success', 'Successfully replied.');
-
+        $this->addFlash('success', 'Successfully replied to ticket.');
         return $this->redirectToRoute('frontend.account.ticket.detail.page', ['id' => $ticketId]);
     }
 }
