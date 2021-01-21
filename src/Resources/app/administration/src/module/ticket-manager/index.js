@@ -2,7 +2,6 @@ import './page/ticket-manager-list';
 import './page/ticket-manager-detail';
 import deDE from './snippet/de-DE.json';
 import enGB from './snippet/en-GB.json';
-import enUS from './snippet/en-US.json';
 
 Shopware.Module.register('ticket-manager', {
     type: 'plugin',
@@ -14,8 +13,7 @@ Shopware.Module.register('ticket-manager', {
 
     snippets: {
         'de-DE': deDE,
-        'en-GB': enGB,
-        'en-US': enUS
+        'en-GB': enGB
     },
 
     routes: {

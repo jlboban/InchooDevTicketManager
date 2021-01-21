@@ -12,10 +12,12 @@
       "columnCreatedAt": "Created at"
     },
     "detail": {
+      "customerLabel": "Customer",
       "statusLabel": "Status",
       "subjectLabel": "Subject",
       "contentLabel": "Content",
       "closeTicketLabel": "Close ticket",
+      "postReplyLabel": "Post reply",
       "cancelButtonText": "Cancel",
       "saveButtonText": "Save",
       "errorTitle": "Error"

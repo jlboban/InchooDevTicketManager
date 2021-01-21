@@ -40,16 +40,6 @@ Component.register('ticket-manager-list', {
                 routerLink: 'ticket.manager.detail',
                 allowResize: true,
             }, {
-                property: 'content',
-                dataIndex: 'content',
-                label: this.$tc('ticket-manager.list.columnContent'),
-                allowResize: true,
-            }, {
-                property: 'customer.fullName',
-                dataIndex: 'customer',
-                label: this.$tc('ticket-manager.list.columnCustomer'),
-                allowResize: true
-            }, {
                 property: 'createdAt',
                 dataIndex: 'createdAt',
                 label: this.$tc('ticket-manager.list.columnCreatedAt'),
@@ -65,9 +55,6 @@ Component.register('ticket-manager-list', {
             .search(new Criteria().addAssociation('customer'), Shopware.Context.api)
             .then((result) => {
                 this.tickets = result
-                this.tickets.forEach((ticket) => {
-                    ticket.customer.fullName = ticket.customer.firstName + " " + ticket.customer.lastName
-                });
             });
     }
 });

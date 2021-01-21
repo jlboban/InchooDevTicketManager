@@ -1,42 +1,79 @@
 <sw-page class="ticket-manager-detail">
 
+    <template slot="smart-bar-actions">
+        <sw-button :routerLink="{ name: 'ticket.manager.list' }">
+            {{ $t('ticket-manager.detail.cancelButtonText') }}
+        </sw-button>
+    </template>
+
     <template slot="content">
         <sw-card-view v-if="ticket">
-            <sw-card>
-                <sw-card v-if="ticket.status==true">OPEN</sw-card>
-                <sw-card v-else>CLOSED</sw-card>
+
+            <sw-card title="Ticket">
+                <h2>{{ $t('ticket-manager.detail.customerLabel') }}</h2>
+                <sw-card>
+                    {{ ticket.customer.firstName }} {{ ticket.customer.lastName }}
+                </sw-card>
+
+                <h2>{{ $t('ticket-manager.detail.statusLabel') }}</h2>
+                <sw-card v-if="ticket.status==true"><strong>OPEN</strong></sw-card>
+                <sw-card v-else><strong>CLOSED</strong></sw-card>
+
+                <h2>{{ $t('ticket-manager.detail.subjectLabel') }}</h2>
                 <sw-card>{{ ticket.subject }}</sw-card>
-                <sw-card>{{ ticket.content }}</sw-card>
 
-                <sw-button @click="onTicketClose"
-                           variant="danger"
-                           :block="true">
-                    Close ticket
-                </sw-button>
+                <h2>{{ $t('ticket-manager.detail.contentLabel') }}</h2>
+                <sw-card style="overflow: auto; word-wrap: anywhere">
+                    {{ ticket.content }}
+                </sw-card>
 
+                <sw-button-process
+                        v-if="ticket.status == 1"
+                        :block="true"
+                        :isLoading="isLoading"
+                        :processSuccess="processSuccess"
+                        variant="danger"
+                        @process-finish="saveFinish"
+                        @click="onClickSave">
+                    {{ $t('ticket-manager.detail.closeTicketLabel') }}
+                </sw-button-process>
             </sw-card>
-            <sw-card title="Replies" :hero="true" :isLoading="false" v-if="ticket.replies"
+
+            <sw-card title="Replies" :isLoading="false" v-if="ticket.replies"
                      listRoute="ticket.manager.list" >
                 {% block ticket_manager_list_content %}
 
                     <sw-card :hero="false" :isLoading="false" :large="false"
                              :showSelection="false" v-for="reply in ticket.replies">
-                        {{ ticket.customer }}
+                        <sw-avatar color="#00c5dd"
+                                   size="32px"
+                                   firstName="ticket.customer.firstName"
+                                   style="margin-bottom: 20px;"
+                                   lastName="ticket.customer.lastName"></sw-avatar>
+                        {{ ticket.customer.firstName }}{{ ticket.customer.lastName }}
+                        <br>
                         {{ reply.content }}
                     </sw-card>
 
                 {% endblock %}
             </sw-card>
 
-            <sw-card title="Reply" :isLoading="false">
-                <sw-textarea-field type="textarea" label="Reply" placeholder="Content">
+            <sw-card title="Reply" :isLoading="false" v-if="ticket.status == 1">
+                <sw-textarea-field type="textarea" placeholder="Content" v-model="newReply.content">
 
                 </sw-textarea-field>
 
+                <sw-button-process
+                        size="large"
+                        :block="true"
+                        :isLoading="isLoading"
+                        :processSuccess="processSuccess"
+                        variant="primary"
+                        @process-finish="saveFinish"
+                        @click="onCreateReply">
+                    {{ $t('ticket-manager.detail.postReplyLabel') }}
+                </sw-button-process>
 
-                <sw-button @click="onCreateReply" :disabled="false" variant="primary" size="large" :square="false" :block="true" :isLoading="false">
-                    Post reply
-                </sw-button>
             </sw-card>
         </sw-card-view>
 

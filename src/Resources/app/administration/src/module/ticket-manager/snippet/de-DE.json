@@ -11,9 +11,12 @@
       "columnCreatedAt": "Hergestellt in"
     },
     "detail": {
+      "customerLabel": "Kunde",
+      "statusLabel": "Status",
       "subjectLabel": "Gegenstand",
       "contentLabel": "Inhalt",
       "closeTicketLabel": "Ticket schließen",
+      "postReplyLabel": "Briefantwort",
       "cancelButtonText": "Stornieren",
       "saveButtonText": "Speichern",
       "errorTitle": "Error"
