@@ -33,7 +33,14 @@ Component.register('ticket-manager-list', {
                 inlineEdit: 'boolean',
                 primary: true,
                 naturalSorting: true
-            },{
+            }, {
+                property: 'customer.fullName',
+                dataIndex: 'customer.firstName, customer.lastName',
+                label: this.$tc('ticket-manager.list.columnCustomer'),
+                routerLink: 'ticket.manager.detail',
+                allowResize: true,
+                primary: true
+            }, {
                 property: 'subject',
                 dataIndex: 'subject',
                 label: this.$tc('ticket-manager.list.columnSubject'),
@@ -51,11 +58,20 @@ Component.register('ticket-manager-list', {
 
     created() {
         this.repository = this.repositoryFactory.create('inchoo_ticket');
+        this.getTickets();
+    },
 
-        this.repository
-            .search(new Criteria().addAssociation('customer'), Shopware.Context.api)
-            .then((result) => {
-                this.tickets = result
-            });
+    methods: {
+        getTickets() {
+            this.repository
+                .search(new Criteria().addAssociation('customer'), Shopware.Context.api)
+                .then((result) => {
+                    this.tickets = result;
+                    this.tickets.forEach((ticket) => {
+                        ticket.customer.fullName = ticket.customer.firstName + " " + ticket.customer.lastName;
+                    });
+
+                });
+        },
     }
 });

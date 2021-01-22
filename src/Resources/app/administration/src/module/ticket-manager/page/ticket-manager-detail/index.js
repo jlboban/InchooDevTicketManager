@@ -22,7 +22,6 @@ Shopware.Component.register('ticket-manager-detail', {
 
     data() {
         return {
-            user: null,
             ticket: null,
             newReply: null,
             ticketRepository: null,
