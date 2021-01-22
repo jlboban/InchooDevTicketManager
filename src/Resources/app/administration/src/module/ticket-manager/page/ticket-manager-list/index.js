@@ -70,7 +70,6 @@ Component.register('ticket-manager-list', {
                     this.tickets.forEach((ticket) => {
                         ticket.customer.fullName = ticket.customer.firstName + " " + ticket.customer.lastName;
                     });
-
                 });
         },
     }

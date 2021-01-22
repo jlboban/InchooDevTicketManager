@@ -17,6 +17,9 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TicketReplyController extends StorefrontController
 {
+    /**
+     * @var EntityRepositoryInterface
+     */
     private $ticketReplyRepository;
 
     public function __construct(EntityRepositoryInterface $ticketReplyRepository)
@@ -32,6 +35,13 @@ class TicketReplyController extends StorefrontController
      */
     public function saveReply(RequestDataBag $data, SalesChannelContext $context)
     {
+        $customerId = $data->get('customerId');
+
+        if ($context->getCustomer()->getId() !== $customerId){
+            $this->addFlash('danger', 'You are only allowed to respond to tickets you created.');
+            return $this->redirectToRoute('frontend.account.ticket.page');
+        }
+
         $content = trim($data->get('content'));
         $ticketId = $data->get('ticketId');
 

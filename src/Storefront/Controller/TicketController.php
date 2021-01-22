@@ -2,10 +2,13 @@
 
 namespace InchooDev\TicketManager\Storefront\Controller;
 
+use InchooDev\TicketManager\Core\Content\Ticket\TicketEntity;
 use InchooDev\TicketManager\Page\Ticket\TicketCreatePageLoader;
 use InchooDev\TicketManager\Page\Ticket\TicketDetailPageLoader;
 use InchooDev\TicketManager\Page\Ticket\TicketListingPageLoader;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
 use Shopware\Storefront\Controller\StorefrontController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,9 +24,24 @@ use Shopware\Core\Framework\Routing\Annotation\LoginRequired;
  */
 class TicketController extends StorefrontController
 {
+    /**
+     * @var TicketListingPageLoader
+     */
     private $ticketListingPageLoader;
+
+    /**
+     * @var TicketDetailPageLoader
+     */
     private $ticketDetailPageLoader;
+
+    /**
+     * @var TicketCreatePageLoader
+     */
     private $ticketCreatePageLoader;
+
+    /**
+     * @var EntityRepositoryInterface
+     */
     private $ticketRepository;
 
     public function __construct
@@ -49,7 +67,6 @@ class TicketController extends StorefrontController
     public function index(Request $request, SalesChannelContext $context)
     {
         $page = $this->ticketListingPageLoader->load($request, $context);
-
         return $this->renderStorefront('@InchooDev/storefront/page/account/ticket-history/index.html.twig', ['page' => $page]);
     }
 
@@ -62,6 +79,11 @@ class TicketController extends StorefrontController
     public function detail(Request $request, SalesChannelContext $context)
     {
         $page = $this->ticketDetailPageLoader->load($request, $context);
+
+        if ($context->getCustomer()->getId() !== $page->getTicket()->getCustomerId()){
+            $this->addFlash('danger', 'Forbidden action.');
+            return $this->redirectToRoute('frontend.account.ticket.page');
+        }
 
         return $this->renderStorefront('@InchooDev/storefront/page/account/ticket/detail.html.twig', ['page' => $page]);
     }
@@ -118,13 +140,19 @@ class TicketController extends StorefrontController
      */
     public function closeTicket(Request $request, SalesChannelContext $context)
     {
-        $id = $request->get('id');
+        $ticketId = $request->get('id');
+        $ticket = $this->getTicket($context, $request->get('id'));
+
+        if ($context->getCustomer()->getId() !== $ticket->getCustomerId()){
+            $this->addFlash('danger', 'Forbidden action.');
+            return $this->redirectToRoute('frontend.account.ticket.page');
+        }
 
         try {
             $this->ticketRepository->update(
                 [
                     [
-                        'id' => $id,
+                        'id' => $ticketId,
                         'status' => false,
                     ]
                 ],
@@ -137,5 +165,11 @@ class TicketController extends StorefrontController
 
         $this->addFlash('success', 'Successfully closed ticket.');
         return $this->redirectToRoute('frontend.account.ticket.page');
+    }
+
+    private function getTicket(SalesChannelContext $context, string $ticketId): ?TicketEntity
+    {
+        $criteria = (new Criteria())->addFilter(new EqualsFilter('id', $ticketId));
+        return $this->ticketRepository->search($criteria, $context->getContext())->getEntities()->first();
     }
 }

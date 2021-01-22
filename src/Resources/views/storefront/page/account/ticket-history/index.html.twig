@@ -30,7 +30,7 @@
                     {% if page.tickets.elements|length == 0 %}
                         {% block page_account_tickets_info_empty %}
                             {% sw_include '@Storefront/storefront/utilities/alert.html.twig' with {
-                                type: "success",
+                                type: "warning",
                                 content: "You don't have open tickets."
                             } %}
                         {% endblock %}
