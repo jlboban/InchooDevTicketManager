@@ -85,7 +85,6 @@ Shopware.Component.register('ticket-manager-detail', {
             this.isLoading = true;
 
             this.newReply.ticketId = this.ticket.id;
-            this.newReply.customerId = this.ticket.customerId;
             this.newReply.adminId = Shopware.State.get('session').currentUser.id;
 
             this.replyRepository
