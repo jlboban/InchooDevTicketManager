@@ -64,7 +64,7 @@ class TicketController extends StorefrontController
      * @param SalesChannelContext $context
      * @return Response
      */
-    public function index(Request $request, SalesChannelContext $context)
+    public function index(Request $request, SalesChannelContext $context): Response
     {
         $page = $this->ticketListingPageLoader->load($request, $context);
         return $this->renderStorefront('@InchooDev/storefront/page/account/ticket-history/index.html.twig', ['page' => $page]);
@@ -76,7 +76,7 @@ class TicketController extends StorefrontController
      * @param SalesChannelContext $context
      * @return Response
      */
-    public function detail(Request $request, SalesChannelContext $context)
+    public function detail(Request $request, SalesChannelContext $context): Response
     {
         $page = $this->ticketDetailPageLoader->load($request, $context);
 
@@ -94,7 +94,7 @@ class TicketController extends StorefrontController
      * @param SalesChannelContext $context
      * @return Response
      */
-    public function new(Request $request, SalesChannelContext $context)
+    public function new(Request $request, SalesChannelContext $context): Response
     {
         $page = $this->ticketCreatePageLoader->load($request, $context);
         return $this->renderStorefront('@InchooDev/storefront/page/account/ticket/create.html.twig', ['page' => $page]);
@@ -106,7 +106,7 @@ class TicketController extends StorefrontController
      * @param SalesChannelContext $context
      * @return Response
      */
-    public function saveTicket(RequestDataBag $data, SalesChannelContext $context)
+    public function saveTicket(RequestDataBag $data, SalesChannelContext $context): Response
     {
         $subject = $data->get('subject');
         $content = trim($data->get('content'));
@@ -138,7 +138,7 @@ class TicketController extends StorefrontController
      * @param SalesChannelContext $context
      * @return Response
      */
-    public function closeTicket(Request $request, SalesChannelContext $context)
+    public function closeTicket(Request $request, SalesChannelContext $context): Response
     {
         $ticketId = $request->get('id');
         $ticket = $this->getTicket($context, $request->get('id'));

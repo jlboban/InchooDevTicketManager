@@ -33,7 +33,7 @@ class TicketReplyController extends StorefrontController
      * @param SalesChannelContext $context
      * @return RedirectResponse
      */
-    public function saveReply(RequestDataBag $data, SalesChannelContext $context)
+    public function saveReply(RequestDataBag $data, SalesChannelContext $context): RedirectResponse
     {
         $customerId = $data->get('customerId');
 
