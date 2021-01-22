@@ -6,11 +6,11 @@
         </sw-button>
         <sw-button-process
                 v-if="ticket.status == 1"
-                :isLoading="isLoading"
-                :processSuccess="processSuccess"
                 variant="danger"
-                @process-finish="saveFinish"
-                @click="onTicketClose">
+                :isLoading="isLoading"
+                :processSuccess="closeTicketProcessSuccess"
+                @process-finish="closeTicketFinish"
+                @click="closeTicket">
             {{ $t('ticket-manager.detail.closeTicketLabel') }}
         </sw-button-process>
     </template>
@@ -67,7 +67,7 @@
                                        firstName="A"
                                        style="margin-bottom: 20px;">
                             </sw-avatar>
-                            <h2>Admin</h2>
+                            <h2>{{ reply.adminId }}</h2>
                             <br>
                             <p>{{ reply.content }}</p>
                         </div>
@@ -81,11 +81,12 @@
 
                 <sw-button-process
                         size="large"
+                        variant="primary"
                         :block="true"
                         :isLoading="isLoading"
-                        :processSuccess="processSuccess"
-                        variant="primary"
-                        @click="onCreateReply">
+                        :processSuccess="createReplyProcessSuccess"
+                        @process-finish="createReplyFinish"
+                        @click="saveReply">
                     {{ $t('ticket-manager.detail.postReplyLabel') }}
                 </sw-button-process>
 

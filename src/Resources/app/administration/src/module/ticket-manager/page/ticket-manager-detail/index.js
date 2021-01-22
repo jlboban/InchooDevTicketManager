@@ -1,6 +1,6 @@
 import template from './ticket-manager-detail.html.twig';
 
-const { Component, Mixin } = Shopware;
+const { Mixin } = Shopware;
 const Criteria = Shopware.Data.Criteria;
 
 Shopware.Component.register('ticket-manager-detail', {
@@ -24,24 +24,13 @@ Shopware.Component.register('ticket-manager-detail', {
         return {
             user: null,
             ticket: null,
-            replies: null,
             newReply: null,
             ticketRepository: null,
             replyRepository: null,
             isLoading: false,
-            processSuccess: false
+            closeTicketProcessSuccess: false,
+            createReplyProcessSuccess: false
         };
-    },
-
-    computed: {
-        ticketCriteria(){
-          const criteria = new Criteria()
-              .addFilter(Criteria.equals('id', this.$route.params.id))
-              .addAssociation('customer')
-              .addAssociation('replies')
-
-          return criteria;
-        },
     },
 
     created() {
@@ -49,6 +38,15 @@ Shopware.Component.register('ticket-manager-detail', {
         this.replyRepository = this.repositoryFactory.create('inchoo_ticket_reply');
         this.getTicket();
         this.createReply();
+    },
+
+    computed: {
+        ticketCriteria() {
+            return new Criteria()
+                .addFilter(Criteria.equals('id', this.$route.params.id))
+                .addAssociation('customer')
+                .addAssociation('replies');
+        }
     },
 
     methods: {
@@ -64,7 +62,7 @@ Shopware.Component.register('ticket-manager-detail', {
             this.newReply = this.replyRepository.create(Shopware.Context.api);
         },
 
-        onTicketClose(){
+        closeTicket(){
             this.isLoading = true;
             this.ticket.status = false;
 
@@ -73,7 +71,7 @@ Shopware.Component.register('ticket-manager-detail', {
                 .then(() => {
                     this.getTicket();
                     this.isLoading = false;
-                    this.processSuccess = true;
+                    this.processCloseTicketSuccess = true;
                 }).catch((exception) => {
                 this.isLoading = false;
                 this.createNotificationError({
@@ -83,8 +81,9 @@ Shopware.Component.register('ticket-manager-detail', {
             });
         },
 
-        onCreateReply(){
+        saveReply(){
             this.isLoading = true;
+
             this.newReply.ticketId = this.ticket.id;
             this.newReply.customerId = this.ticket.customerId;
             this.newReply.adminId = Shopware.State.get('session').currentUser.id;
@@ -93,9 +92,10 @@ Shopware.Component.register('ticket-manager-detail', {
                 .save(this.newReply, Shopware.Context.api)
                 .then(() => {
                     this.isLoading = false;
-                    this.processSuccess = true;
+                    this.processCreateReplySuccess = true;
                     this.$router.push({ name: 'ticket.manager.detail', params: { id: this.ticket.id } });
-
+                    this.getTicket();
+                    this.createReply();
                 }).catch((exception) => {
                 this.isLoading = false;
 
@@ -106,8 +106,12 @@ Shopware.Component.register('ticket-manager-detail', {
             });
         },
 
-        saveFinish() {
-            this.processSuccess = true;
+        closeTicketFinish() {
+            this.processCloseTicketSuccess = false;
+        },
+
+        createReplyFinish() {
+            this.processCreateReplySuccess = false;
         }
     }
 });
