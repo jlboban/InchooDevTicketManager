@@ -3,7 +3,6 @@
 namespace InchooDev\TicketManager\Storefront\Controller;
 
 use InchooDev\TicketManager\Core\Content\Ticket\TicketEntity;
-use InchooDev\TicketManager\Page\Ticket\TicketCreatePageLoader;
 use InchooDev\TicketManager\Page\Ticket\TicketDetailPageLoader;
 use InchooDev\TicketManager\Page\Ticket\TicketListingPageLoader;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
@@ -35,11 +34,6 @@ class TicketController extends StorefrontController
     private $ticketDetailPageLoader;
 
     /**
-     * @var TicketCreatePageLoader
-     */
-    private $ticketCreatePageLoader;
-
-    /**
      * @var EntityRepositoryInterface
      */
     private $ticketRepository;
@@ -48,13 +42,11 @@ class TicketController extends StorefrontController
     (
         TicketListingPageLoader $ticketListingPageLoader,
         TicketDetailPageLoader $ticketDetailPageLoader,
-        TicketCreatePageLoader $ticketCreatePageLoader,
         EntityRepositoryInterface $ticketRepository
     )
     {
         $this->ticketListingPageLoader = $ticketListingPageLoader;
         $this->ticketDetailPageLoader = $ticketDetailPageLoader;
-        $this->ticketCreatePageLoader = $ticketCreatePageLoader;
         $this->ticketRepository = $ticketRepository;
     }
 
@@ -96,7 +88,7 @@ class TicketController extends StorefrontController
      */
     public function new(Request $request, SalesChannelContext $context): Response
     {
-        $page = $this->ticketCreatePageLoader->load($request, $context);
+        $page = $this->ticketDetailPageLoader->load($request, $context);
         return $this->renderStorefront('@InchooDev/storefront/page/account/ticket/create.html.twig', ['page' => $page]);
     }
 

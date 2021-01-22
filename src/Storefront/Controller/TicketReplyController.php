@@ -2,7 +2,10 @@
 
 namespace InchooDev\TicketManager\Storefront\Controller;
 
+use InchooDev\TicketManager\Core\Content\Ticket\TicketEntity;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepositoryInterface;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\DataAbstractionLayer\Search\Filter\EqualsFilter;
 use Shopware\Core\Framework\Routing\Annotation\LoginRequired;
 use Shopware\Core\Framework\Routing\Annotation\RouteScope;
 use Shopware\Core\Framework\Validation\DataBag\RequestDataBag;
@@ -20,10 +23,20 @@ class TicketReplyController extends StorefrontController
     /**
      * @var EntityRepositoryInterface
      */
+    private $ticketRepository;
+
+    /**
+     * @var EntityRepositoryInterface
+     */
     private $ticketReplyRepository;
 
-    public function __construct(EntityRepositoryInterface $ticketReplyRepository)
+    public function __construct
+    (
+        EntityRepositoryInterface $ticketRepository,
+        EntityRepositoryInterface $ticketReplyRepository
+    )
     {
+        $this->ticketRepository = $ticketRepository;
         $this->ticketReplyRepository = $ticketReplyRepository;
     }
 
@@ -35,15 +48,20 @@ class TicketReplyController extends StorefrontController
      */
     public function saveReply(RequestDataBag $data, SalesChannelContext $context): RedirectResponse
     {
-        $customerId = $data->get('customerId');
+        $content = trim($data->get('content'));
+        $ticketId = $data->get('ticketId');
 
-        if ($context->getCustomer()->getId() !== $customerId){
+        $criteria = (new Criteria())->addFilter(new EqualsFilter('id', $ticketId));
+
+        /**
+         * @var TicketEntity
+         */
+        $ticket = $this->ticketRepository->search($criteria, $context->getContext())->getEntities()->first();
+
+        if ($context->getCustomer()->getId() !== $ticket->getCustomerId()){
             $this->addFlash('danger', 'You are only allowed to respond to tickets you created.');
             return $this->redirectToRoute('frontend.account.ticket.page');
         }
-
-        $content = trim($data->get('content'));
-        $ticketId = $data->get('ticketId');
 
         try {
             $this->ticketReplyRepository->create(

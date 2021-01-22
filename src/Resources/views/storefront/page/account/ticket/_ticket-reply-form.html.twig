@@ -27,11 +27,10 @@
                               name="content"
                               required="required"
                               rows="3">
-                                </textarea>
+                    </textarea>
                 {% endblock %}
 
                 <input type="hidden" name="ticketId" value="{{ page.ticket.id }}">
-                <input type="hidden" name="ticketId" value="{{ page.ticket.customerId }}">
 
                 <div class="product-detail-review-form-actions pt-3">
                     {% block component_ticket_form_content_submit %}

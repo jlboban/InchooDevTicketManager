@@ -34,7 +34,7 @@ class TicketDetailPageLoader
 
     public function load(Request $request, SalesChannelContext $context): TicketDetailPage
     {
-        $ticketId = $request->get('id');
+        $ticketId = $request->get('id') ?? null;
 
         $page = $this->genericPageLoader->load($request, $context);
         $page = TicketDetailPage::createFrom($page);
@@ -47,8 +47,12 @@ class TicketDetailPageLoader
         return $page;
     }
 
-    private function getTicket(SalesChannelContext $context, string $ticketId): ?TicketEntity
+    private function getTicket(SalesChannelContext $context, ?string $ticketId): ?TicketEntity
     {
+        if (!$ticketId){
+            return null;
+        }
+
         $criteria = (new Criteria())
             ->addFilter(new EqualsFilter('id', $ticketId))
             ->addAssociation('customer')
